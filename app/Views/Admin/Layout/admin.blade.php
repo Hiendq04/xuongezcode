@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{$title}}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
+        integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
+        integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{route('/Public/Styles/Admin.css')}}" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body>
+    <div class="main-admin">
+        <div class="sidebar">
+            <div>
+                <div class="sidebar-logo d-flex justify-content-center align-items-center">
+                    <!-- <svg
+            aria-hidden="true"
+            class="pre-logo-svg"
+            focusable="false"
+            viewBox="0 0 24 24"
+            role="img"
+            width="100px"
+            height="100px"
+            fill="#fff"
+            >
+            <path
+                fill="#fff"
+                fill-rule="evenodd"
+                d="M21 8.719L7.836 14.303C6.74 14.768 5.818 15 5.075 15c-.836 0-1.445-.295-1.819-.884-.485-.76-.273-1.982.559-3.272.494-.754 1.122-1.446 1.734-2.108-.144.234-1.415 2.349-.025 3.345.275.2.666.298 1.147.298.386 0 .829-.063 1.316-.19L21 8.719z"
+                clip-rule="evenodd"
+            ></path>
+            </svg> -->
+
+                    <img src="{{ pathUpload(($_SESSION['user']['avatar']!='') ? $_SESSION['user']['avatar'] : 'user.jpg')}}"
+                        class="avatar-user rounded-circle" alt="" />
+                </div>
+
+                <div class="sidebar-menu">
+                    <a href="{{routeAdmin('/')}}">
+                        <div class="sidebar-menu-header">
+                            <p>Trang chủ</p>
+                        </div>
+                    </a>
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                    aria-controls="flush-collapseTwo">
+                                    Quản lý danh mục
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li><a href=" {{routeAdmin('/category/list')}} ">Danh sách danh mục</a></li>
+                                        <li><a href=" {{routeAdmin('/category/add')}} ">Thêm mới danh mục</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-one" aria-expanded="false" aria-controls="flush-one">
+                                    Quản lí khóa học
+                                </button>
+                            </h2>
+                            <div id="flush-one" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li><a href="{{routeAdmin('/course/list')}}">Danh sách khóa học</a></li>
+                                        <li><a href="{{routeAdmin('/course/add')}}">Thêm khóa học</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-two" aria-expanded="false" aria-controls="flush-two">
+                                    Quản lí tài khoản
+                                </button>
+                            </h2>
+                            <div id="flush-two" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li><a href="{{routeAdmin('/accounts/list')}}">Danh sách tài khoản</a></li>
+                                        <li><a href="{{routeAdmin('/accounts/add')}}">Thêm tài khoản</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-three" aria-expanded="false" aria-controls="flush-three">
+                                    Quản lí bình luận
+                                </button>
+                            </h2>
+                            <div id="flush-three" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li><a href="{{routeAdmin('/comments/list')}}">Danh sách bình luận</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-four" aria-expanded="false" aria-controls="flush-four">
+                                    Quản lí đánh giá
+                                </button>
+                            </h2>
+                            <div id="flush-four" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li><a href="{{routeAdmin('/rating/list')}}">Danh sách đánh giá</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a style="text-decoration:none;" href="<?=$adminUrl." chart/chart"?>">
+                            <div class="sidebar-menu-header">
+                                <p>Thống kê</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-end p-0">
+                <ul>
+                    <li class="p-0"><a class="btn py-3 ps-0" style="width:100%;height:100%" href="{{route('/')}}"><-
+                                Trang web</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="right-sitebar container-xxl">
+            <div>
+                <button onclick="back()" class="float-start ms-3 fs-3 text-dark py-4 opacity-75"><i
+                        class="fa-solid fa-arrow-left"></i></button>
+                <script>
+                    function back() {
+                        history.back();
+                    }
+                </script>
+                <h2 class="py-4 title-admin"> {{$header}} </h2>
+            </div>
+            @yield('content')
+        </div>
+
+
+        <script>
+
+            function chooseFile(fileInput, idImg) {
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById(idImg).setAttribute('src', e.target.result);
+                    }
+                    reader.readAsDataURL(fileInput.files[0]);
+
+                }
+            }
+
+            function formatNumber(input) {
+                let value = input.value.replace(/\D/g, '');
+                value = new Intl.NumberFormat().format(value);
+                input.value = value;
+            }
+
+            // closs mesage
+            let closeMessage = document.querySelector(".message .message-close");
+            if (closeMessage) {
+                closeMessage.onclick = function () {
+                    closeMessage.parentNode.remove()
+                }
+            }
+        </script>
+</body>
+
+</html>
